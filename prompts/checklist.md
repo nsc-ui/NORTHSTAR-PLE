@@ -1,0 +1,14 @@
+# NORTHSTAR task completion gate
+- [ ] Full prompt reviewed and mapped into requirements/acceptance matrix
+- [ ] Recursive workspace inventory; important sources inspected (all relevant pages/sheets/views, not just excerpts)
+- [ ] Evidence ledger cites source file/page/sheet/row/section, units, confidence
+- [ ] Assumptions, conflicting sources, and unresolved issues identified
+- [ ] Plan and dependencies written down for complex tasks
+- [ ] Reproducible calculation scripts/intermediate data created where appropriate
+- [ ] Independent arithmetic, dimensional, boundary, or sanity checks performed
+- [ ] Every requested deliverable written to exact path and format
+- [ ] Output files reopened/inspected; formulas/links/geometry checked
+- [ ] Relevant tests, validators, and commands run; results captured
+- [ ] Skeptical critique performed and defects repaired
+- [ ] No unsupported claims or fabricated test/code references
+- [ ] Final response states deliverables, checks, limitations, and paths

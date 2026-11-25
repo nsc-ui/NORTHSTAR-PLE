@@ -1,0 +1,1 @@
+NORTHSTAR-PLE — Verification-first engineering agent. Cover art: a compass-star and connected engineering systems, representing structural, civil, electrical, and mechanical disciplines and the plan–reason–verify–deliver workflow. This is a design illustration, not benchmark performance evidence.

@@ -1,0 +1,1 @@
+model,score,cost_usd,run_id,task_id,elapsed_seconds,input_tokens,output_tokens,tool_calls,verification_passed

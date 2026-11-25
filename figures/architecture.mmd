@@ -1,0 +1,13 @@
+flowchart LR
+  A[Task prompt + time budget] --> B[Recursive reconnaissance]
+  B --> C[Evidence ledger + requirements]
+  C --> D[Dependency-aware plan]
+  D --> E[Model reasoning / tool loop]
+  E --> F[Task-local shell, file and MCP tools]
+  F --> G[Engineering calculations, CAD, reports]
+  G --> H[Skeptical critique + repair]
+  H -->|iterate| E
+  H --> I[Final acceptance audit]
+  I --> J[Deliver files + summary + risks]
+  K[Context compaction] -. support .-> E
+  L[Time budget + bounded retries] -. support .-> E
