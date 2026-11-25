@@ -1,0 +1,19 @@
+services:
+  northstar:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: northstar-ple:local
+    ports:
+      - "${PLE_PORT:-8000}:8000"
+    environment:
+      PORT: "8000"
+      LOG_LEVEL: "${LOG_LEVEL:-info}"
+      MAX_TOOL_TURNS: "${MAX_TOOL_TURNS:-110}"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import socket; s=socket.create_connection(('127.0.0.1',8000),timeout=3); s.close()"]
+      interval: 20s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
