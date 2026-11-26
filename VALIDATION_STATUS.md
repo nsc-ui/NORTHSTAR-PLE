@@ -1,26 +1,40 @@
 # Validation Record
 
-Last updated: 2026-11-25 UTC
+Last updated: 2026-11-26 UTC
 
 ## Local verification
 - `python -m compileall -q .` — PASS
-- `python scripts/check_entry.py` — PASS (10/10 structural/model/license checks)
+- `python scripts/check_entry.py` — PASS (15/15 structural, model, license, asset, and writeup checks)
 - `python tests_unit.py` — PASS (MCP SSE multiline/session handling and catalog search)
 - `python tests_context.py` — PASS (history compression retains task, summary, recent turn, and usage accounting)
 - `python tests_cancel.py` — PASS (cancel frame during tool call; best-effort `done` returned)
 - `python tests_smoke.py` — PASS (mocked model: tool call, evaluator protocol exchange, final audit, done; 3 model calls)
-- `python analysis/plot_results.py` — PASS (placeholder figures are generated; explicitly state no dev measurements)
-- `submission.yaml` — model API selected as `google-cloud/gemini-4-neon`; listed in current official model catalog. Model choice has not been benchmarked by NORTHSTAR.
-- Cover asset — generated, copied to `media/cover.jpg` for Kaggle Media Gallery.
-- Architecture — implementation diagram regenerated and visually inspected.
-- Writeup draft — created; currently under 2,000 words, but contains placeholders and explicit pending-evaluation disclosure.
+- `python analysis/plot_results.py` — PASS (placeholder figures are generated; empty datasets are explicitly marked)
+- `python -m py_compile benchmark/run_dev.py benchmark/analyze_results.py` — PASS
+- `benchmark/TASKS_29.json` — PASS (29 unique official public-dev task IDs)
+- `submission.yaml` — model API selected as `google-cloud/gemini-4-neon`; listed in the current official model catalog. Model choice has not been benchmarked by NORTHSTAR.
+- Cover asset — present in `media/cover.jpg` for the Kaggle Media Gallery.
+- Architecture — implementation diagram present under `figures/`.
+- Writeup draft — present and under the 2,000-word cap; it contains placeholders and explicit pending-evaluation disclosure.
 
-## Official minimum checks: NOT PASSED / BLOCKED
-- `uv run python -m kit check NORTHSTAR-PLE` — BLOCKED: official PLE repository/kit is absent, Docker is not installed, and `python -m kit` is unavailable.
-- `uv run python eval/run.py NORTHSTAR-PLE` — BLOCKED: official evaluator is absent, gated HF dataset access/token is not configured, and local model proxy/API credentials are not configured.
-- `uv run python -m kit artifacts NORTHSTAR-PLE` — NOT RUN: official `artifacts/` have not been generated.
-- `uv run python eval/run.py --artifacts NORTHSTAR-PLE` — NOT RUN: no official artifacts exist.
-- Public GitHub repository — NOT CREATED: the connected GitHub account currently has no repositories listed and the connector exposes no repository-creation action. Local Git repository exists.
-- Kaggle Writeup — NOT SUBMITTED: no Kaggle writeup submission action available.
+## Repository and CI
+- Public GitHub repository — PASS: `https://github.com/nsc-ui/NORTHSTAR-PLE`
+- Git bundle — present as `NORTHSTAR-PLE.bundle`.
+- Docker runtime — configured with `Dockerfile`, `compose.yaml`, `.dockerignore`, and `.env.example`.
+- GitHub Actions — PASS: CI workflow completed successfully for commit `264e67e93d329650ee38642b9e9ce44aa3a29ab7`; the subsequent dependency/status fix also passed in the follow-up run.
+- Docker image build — PASS in GitHub Actions. The local Docker daemon is installed and running, but the official kit builder cannot start a bridged container because this sandbox kernel lacks the iptables `raw` table.
+- Phase 1 integration — benchmark helper files are present under `benchmark/`; `.ple-kit/`, `benchmark/local.env`, and `benchmark/runs/` are ignored and are not committed.
 
-No PLE scores, measured costs, task-level failures, or official pass claims are included. Do not submit until the blocked checks and artifacts are completed in the official environment.
+## Official kit and benchmark readiness
+- Official kit checkout — PASS locally at pinned commit `5cf736f8b6e6f28eea71cae52de0c3bedaa88fa2`; it remains external and is not vendored into the submission repository.
+- `uv run --directory .ple-kit python -m kit validate ..` — PASS: submission identity and model configuration accepted.
+- Google Cloud project — created as `northstar-ple-eval`; ADC and gcloud CLI authorization completed; `aiplatform.googleapis.com` enabled.
+- Official Vertex proxy — BLOCKED without billing: Vertex returned HTTP 403 stating that billing must be enabled for the project. Billing was deliberately not enabled and no payment account was attached.
+- `uv run --directory .ple-kit python -m kit check ...` — BLOCKED at the Docker build stage by the sandbox iptables limitation; a direct proxy health probe separately confirmed the no-billing Vertex 403.
+- `python benchmark/run_dev.py --tasks all` — NOT RUN: Docker daemon and authorized gated dataset/model-proxy access are not available.
+- `uv run --directory .ple-kit python -m kit artifacts ..` — NOT RUN: official `artifacts/` have not been generated.
+- `uv run --directory .ple-kit python eval/run.py --artifacts ..` — NOT RUN: no official artifacts exist.
+
+## Submission status
+
+The repository is structurally prepared, has a passing CI and Docker build, and contains a safe Phase 1 benchmark integration. No-cost validation is complete: compilation and official metadata validation pass. It is not yet a valid competition submission because no official 29-task run, measured scores, genuine failure analysis, or official artifacts have been produced. Do not fabricate or submit those items until a billing-enabled model proxy or local development model, a gated dataset authorization, and a Docker runtime with functional container networking are available.
